@@ -888,172 +888,159 @@ void init_Enums(py::module &m)
 
 	py::enum_<sv::devices::ConfigKey> py_config_key(m, "ConfigKey",
 		"Enum of all available config keys for controlling a device.");
-	py_config_key.value("Samplerate", sv::devices::ConfigKey::Samplerate);
-	m.attr("__pdoc__")["ConfigKey.Samplerate"] = "The samplerate, in Hz.";
-	py_config_key.value("CaptureRatio", sv::devices::ConfigKey::CaptureRatio);
-	m.attr("__pdoc__")["ConfigKey.CaptureRatio"] = "The pre/post-trigger capture ratio.";
-	py_config_key.value("PatternMode", sv::devices::ConfigKey::PatternMode);
-	m.attr("__pdoc__")["ConfigKey.PatternMode"] = "A pattern (pattern generator mode).";
-	py_config_key.value("RLE", sv::devices::ConfigKey::RLE);
-	m.attr("__pdoc__")["ConfigKey.RLE"] = "Run-length encoding (RLE).";
-	py_config_key.value("TriggerSlope", sv::devices::ConfigKey::TriggerSlope);
-	m.attr("__pdoc__")["ConfigKey.TriggerSlope"] = "The trigger slope.";
-	py_config_key.value("Averaging", sv::devices::ConfigKey::Averaging);
-	m.attr("__pdoc__")["ConfigKey.Averaging"] = "Averaging.";
-	py_config_key.value("AvgSamples", sv::devices::ConfigKey::AvgSamples);
-	m.attr("__pdoc__")["ConfigKey.AvgSamples"] = "The number of samples to be averaged over.";
-	py_config_key.value("TriggerSource", sv::devices::ConfigKey::TriggerSource);
-	m.attr("__pdoc__")["ConfigKey.TriggerSource"] = "Trigger source.";
-	py_config_key.value("HorizTriggerPos", sv::devices::ConfigKey::HorizTriggerPos);
-	m.attr("__pdoc__")["ConfigKey.HorizTriggerPos"] = "Horizontal trigger position.";
-	py_config_key.value("BufferSize", sv::devices::ConfigKey::BufferSize);
-	m.attr("__pdoc__")["ConfigKey.BufferSize"] = "Buffer size.";
-	py_config_key.value("TimeBase", sv::devices::ConfigKey::TimeBase);
-	m.attr("__pdoc__")["ConfigKey.TimeBase"] = "Time base.";
-	py_config_key.value("Filter", sv::devices::ConfigKey::Filter);
-	m.attr("__pdoc__")["ConfigKey.Filter"] = "Filter.";
-	py_config_key.value("VDiv", sv::devices::ConfigKey::VDiv);
-	m.attr("__pdoc__")["ConfigKey.VDiv"] = "Volts/div.";
-	py_config_key.value("Coupling", sv::devices::ConfigKey::Coupling);
-	m.attr("__pdoc__")["ConfigKey.Coupling"] = "Coupling.";
-	py_config_key.value("TriggerMatch", sv::devices::ConfigKey::TriggerMatch);
-	m.attr("__pdoc__")["ConfigKey.TriggerMatch"] = "Trigger matches.";
-	py_config_key.value("SampleInterval", sv::devices::ConfigKey::SampleInterval);
-	m.attr("__pdoc__")["ConfigKey.SampleInterval"] = "The sample interval, in ms.";
-	py_config_key.value("NumHDiv", sv::devices::ConfigKey::NumHDiv);
-	m.attr("__pdoc__")["ConfigKey.NumHDiv"] = "Number of horizontal divisions, as related to `ConfigKey.TimeBase`.";
-	py_config_key.value("NumVDiv", sv::devices::ConfigKey::NumVDiv);
-	m.attr("__pdoc__")["ConfigKey.NumVDiv"] = "Number of vertical divisions, as related to `ConfigKey.VDiv`.";
-	py_config_key.value("SplWeightFreq", sv::devices::ConfigKey::SplWeightFreq);
-	m.attr("__pdoc__")["ConfigKey.SplWeightFreq"] = "Sound pressure level frequency weighting.";
-	py_config_key.value("SplWeightTime", sv::devices::ConfigKey::SplWeightTime);
-	m.attr("__pdoc__")["ConfigKey.SplWeightTime"] = "Sound pressure level time weighting.";
-	py_config_key.value("SplMeasurementRange", sv::devices::ConfigKey::SplMeasurementRange);
-	m.attr("__pdoc__")["ConfigKey.SplMeasurementRange"] = "Sound pressure level measurement range.";
-	py_config_key.value("HoldMax", sv::devices::ConfigKey::HoldMax);
-	m.attr("__pdoc__")["ConfigKey.HoldMax"] = "Max hold mode.";
-	py_config_key.value("HoldMin", sv::devices::ConfigKey::HoldMin);
-	m.attr("__pdoc__")["ConfigKey.HoldMin"] = "Min hold mode.";
-	py_config_key.value("VoltageThreshold", sv::devices::ConfigKey::VoltageThreshold);
-	m.attr("__pdoc__")["ConfigKey.VoltageThreshold"] = "Logic low-high threshold range.";
-	py_config_key.value("ExternalClock", sv::devices::ConfigKey::ExternalClock);
-	m.attr("__pdoc__")["ConfigKey.ExternalClock"] = "Using an external clock.";
-	py_config_key.value("Swap", sv::devices::ConfigKey::Swap);
-	m.attr("__pdoc__")["ConfigKey.Swap"] = "Swapping channels.";
-	py_config_key.value("CenterFrequency", sv::devices::ConfigKey::CenterFrequency);
-	m.attr("__pdoc__")["ConfigKey.CenterFrequency"] = "Center frequency.";
-	py_config_key.value("NumLogicChannels", sv::devices::ConfigKey::NumLogicChannels);
-	m.attr("__pdoc__")["ConfigKey.NumLogicChannels"] = "The number of logic channels.";
-	py_config_key.value("NumAnalogChannels", sv::devices::ConfigKey::NumAnalogChannels);
-	m.attr("__pdoc__")["ConfigKey.NumAnalogChannels"] = "The number of analog channels.";
-	py_config_key.value("Voltage", sv::devices::ConfigKey::Voltage);
-	m.attr("__pdoc__")["ConfigKey.Voltage"] = "Current voltage.";
-	py_config_key.value("VoltageTarget", sv::devices::ConfigKey::VoltageTarget);
-	m.attr("__pdoc__")["ConfigKey.VoltageTarget"] = "Maximum target voltage.";
-	py_config_key.value("Current", sv::devices::ConfigKey::Current);
-	m.attr("__pdoc__")["ConfigKey.Current"] = "Current current.";
-	py_config_key.value("CurrentLimit", sv::devices::ConfigKey::CurrentLimit);
-	m.attr("__pdoc__")["ConfigKey.CurrentLimit"] = "Current limit.";
-	py_config_key.value("Enabled", sv::devices::ConfigKey::Enabled);
-	m.attr("__pdoc__")["ConfigKey.Enabled"] = "Enabling/disabling a channel (group).";
-	py_config_key.value("ChannelConfig", sv::devices::ConfigKey::ChannelConfig);
-	m.attr("__pdoc__")["ConfigKey.ChannelConfig"] = "Channel configuration.";
-	py_config_key.value("OverVoltageProtectionEnabled", sv::devices::ConfigKey::OverVoltageProtectionEnabled);
-	m.attr("__pdoc__")["ConfigKey.OverVoltageProtectionEnabled"] = "Enabling/disable over voltage protection (OVP) feature.";
-	py_config_key.value("OverVoltageProtectionActive", sv::devices::ConfigKey::OverVoltageProtectionActive);
-	m.attr("__pdoc__")["ConfigKey.OverVoltageProtectionActive"] = "Status of over voltage protection (OVP).";
-	py_config_key.value("OverVoltageProtectionThreshold", sv::devices::ConfigKey::OverVoltageProtectionThreshold);
-	m.attr("__pdoc__")["ConfigKey.OverVoltageProtectionThreshold"] = "Over voltage protection (OVP) threshold.";
-	py_config_key.value("OverCurrentProtectionEnabled", sv::devices::ConfigKey::OverCurrentProtectionEnabled);
-	m.attr("__pdoc__")["ConfigKey.OverCurrentProtectionEnabled"] = "Enabling/disable  over current protection (OCP) feature.";
-	py_config_key.value("OverCurrentProtectionActive", sv::devices::ConfigKey::OverCurrentProtectionActive);
-	m.attr("__pdoc__")["ConfigKey.OverCurrentProtectionActive"] = "Status of over current protection (OCP).";
-	py_config_key.value("OverCurrentProtectionThreshold", sv::devices::ConfigKey::OverCurrentProtectionThreshold);
-	m.attr("__pdoc__")["ConfigKey.OverCurrentProtectionThreshold"] = "Over current protection (OCP) threshold.";
-	py_config_key.value("OverTemperatureProtectionEnabled", sv::devices::ConfigKey::OverTemperatureProtectionEnabled);
-	m.attr("__pdoc__")["ConfigKey.OverTemperatureProtectionEnabled"] = "Enabling/disable over temperature protection (OTP) feature.";
-	py_config_key.value("OverTemperatureProtectionActive", sv::devices::ConfigKey::OverTemperatureProtectionActive);
-	m.attr("__pdoc__")["ConfigKey.OverTemperatureProtectionActive"] = "Status of over temperature protection (OTP).";
-	py_config_key.value("UnderVoltageConditionEnabled", sv::devices::ConfigKey::UnderVoltageConditionEnabled);
-	m.attr("__pdoc__")["ConfigKey.UnderVoltageConditionEnabled"] = "Enabling/disable under voltage condition (UVC) feature.";
-	py_config_key.value("UnderVoltageConditionActive", sv::devices::ConfigKey::UnderVoltageConditionActive);
-	m.attr("__pdoc__")["ConfigKey.UnderVoltageConditionActive"] = "Status of under voltage condition (UVC).";
-	py_config_key.value("UnderVoltageConditionThreshold", sv::devices::ConfigKey::UnderVoltageConditionThreshold);
-	m.attr("__pdoc__")["ConfigKey.UnderVoltageConditionThreshold"] = "Under voltage condition threshold (UVC).";
-	py_config_key.value("ClockEdge", sv::devices::ConfigKey::ClockEdge);
-	m.attr("__pdoc__")["ConfigKey.ClockEdge"] = "Choice of clock edge for external clock (``r`` or ``f``).";
-	py_config_key.value("Amplitude", sv::devices::ConfigKey::Amplitude);
-	m.attr("__pdoc__")["ConfigKey.Amplitude"] = "Amplitude of a source without strictly-defined `ConfigKey.MeasuredQuantity`.";
-	py_config_key.value("Regulation", sv::devices::ConfigKey::Regulation);
-	m.attr("__pdoc__")["ConfigKey.Regulation"] =
-		"Channel regulation. ``CV``, ``CC`` or ``UR``, denoting constant voltage, constant current or "
-		"unregulated. ``CC-`` denotes a power supply in current sink mode (e.g. HP 66xxB). An empty "
-		"string is used when there is no regulation, e.g. the output is disabled.";
-	py_config_key.value("OutputFrequency", sv::devices::ConfigKey::OutputFrequency);
-	m.attr("__pdoc__")["ConfigKey.OutputFrequency"] = "Output frequency in Hz.";
-	py_config_key.value("OutputFrequencyTarget", sv::devices::ConfigKey::OutputFrequencyTarget);
-	m.attr("__pdoc__")["ConfigKey.OutputFrequencyTarget"] = "Output frequency target in Hz.";
-	py_config_key.value("MeasuredQuantity", sv::devices::ConfigKey::MeasuredQuantity);
-	m.attr("__pdoc__")["ConfigKey.MeasuredQuantity"] = "Measured quantity.";
-	py_config_key.value("EquivCircuitModel", sv::devices::ConfigKey::EquivCircuitModel);
-	m.attr("__pdoc__")["ConfigKey.EquivCircuitModel"] = "Equivalent circuit model.";
-	py_config_key.value("TriggerLevel", sv::devices::ConfigKey::TriggerLevel);
-	m.attr("__pdoc__")["ConfigKey.TriggerLevel"] = "Trigger level.";
-	py_config_key.value("ExternalClockSource", sv::devices::ConfigKey::ExternalClockSource);
-	m.attr("__pdoc__")["ConfigKey.ExternalClockSource"] =
-		"Which external clock source to use if the device supports multiple external clock channels.";
-	py_config_key.value("Offset", sv::devices::ConfigKey::Offset);
-	m.attr("__pdoc__")["ConfigKey.Offset"] =
-		"Offset of a source without strictly-defined `ConfigKey.MeasuredQuantity`.";
-	py_config_key.value("TriggerPattern", sv::devices::ConfigKey::TriggerPattern);
-	m.attr("__pdoc__")["ConfigKey.TriggerPattern"] = "The pattern for the logic trigger.";
-	py_config_key.value("HighResolution", sv::devices::ConfigKey::HighResolution);
-	m.attr("__pdoc__")["ConfigKey.HighResolution"] = "High resolution mode.";
-	py_config_key.value("PeakDetection", sv::devices::ConfigKey::PeakDetection);
-	m.attr("__pdoc__")["ConfigKey.PeakDetection"] = "Peak detection.";
-	py_config_key.value("LogicThreshold", sv::devices::ConfigKey::LogicThreshold);
-	m.attr("__pdoc__")["ConfigKey.LogicThreshold"] =
-		"Logic threshold: predefined levels (``TTL``, ``ECL``, ``CMOS``, etc).";
-	py_config_key.value("LogicThresholdCustom", sv::devices::ConfigKey::LogicThresholdCustom);
-	m.attr("__pdoc__")["ConfigKey.LogicThresholdCustom"] = "Logic threshold: custom numerical value.";
-	py_config_key.value("Range", sv::devices::ConfigKey::Range);
-	m.attr("__pdoc__")["ConfigKey.Range"] =
-		"The measurement range of a DMM or the output range of a power supply.";
-	py_config_key.value("Digits", sv::devices::ConfigKey::Digits);
-	m.attr("__pdoc__")["ConfigKey.Digits"] = "The number of digits (e.g. for a DMM).";
-	py_config_key.value("SessionFile", sv::devices::ConfigKey::SessionFile);
-	m.attr("__pdoc__")["ConfigKey.SessionFile"] = "Session filename.";
-	py_config_key.value("CaptureFile", sv::devices::ConfigKey::CaptureFile);
-	m.attr("__pdoc__")["ConfigKey.CaptureFile"] = "The capturefile to inject.";
-	py_config_key.value("CaptureUnitSize", sv::devices::ConfigKey::CaptureUnitSize);
-	m.attr("__pdoc__")["ConfigKey.CaptureUnitSize"] = "The capturefile unit size.";
-	py_config_key.value("PowerOff", sv::devices::ConfigKey::PowerOff);
-	m.attr("__pdoc__")["ConfigKey.PowerOff"] = "Power off the device.";
-	py_config_key.value("DataSource", sv::devices::ConfigKey::DataSource);
-	m.attr("__pdoc__")["ConfigKey.DataSource"] = "Data source for acquisition.";
-	py_config_key.value("ProbeFactor", sv::devices::ConfigKey::ProbeFactor);
-	m.attr("__pdoc__")["ConfigKey.ProbeFactor"] = "The probe factor.";
-	py_config_key.value("ADCPowerlineCycles", sv::devices::ConfigKey::ADCPowerlineCycles);
-	m.attr("__pdoc__")["ConfigKey.ADCPowerlineCycles"] = "Number of powerline cycles for ADC integration time.";
-	py_config_key.value("DataLog", sv::devices::ConfigKey::DataLog);
-	m.attr("__pdoc__")["ConfigKey.DataLog"] = "The device has internal storage, into which data is logged.";
-	py_config_key.value("DeviceMode", sv::devices::ConfigKey::DeviceMode);
-	m.attr("__pdoc__")["ConfigKey.DeviceMode"] = "Device mode for multi-function devices.";
-	py_config_key.value("TestMode", sv::devices::ConfigKey::TestMode);
-	m.attr("__pdoc__")["ConfigKey.TestMode"] = "Self test mode.";
-	py_config_key.value("Unknown", sv::devices::ConfigKey::Unknown);
-	m.attr("__pdoc__")["ConfigKey.Unknown"] = "Unknown config key.";
-	py_config_key.def_static("get_data_type", &sv::devices::deviceutil::get_data_type_for_config_key,
-		py::arg("config_key"),
-		"Helper function to get the data type for a config key.\n\n"
-		"Parameters\n"
-		"----------\n"
-		"config_key : ConfigKey\n"
-		"    The config key.\n\n"
-		"Returns\n"
-		"-------\n"
-		"DataType\n"
-		"    The data type of the config key.");
+	py_config_key.value("Samplerate", sv::devices::ConfigKey::Samplerate,
+		"The samplerate, in Hz.");
+	py_config_key.value("CaptureRatio", sv::devices::ConfigKey::CaptureRatio,
+		"The pre/post-trigger capture ratio.");
+	py_config_key.value("PatternMode", sv::devices::ConfigKey::PatternMode,
+		"A pattern (pattern generator mode).");
+	py_config_key.value("RLE", sv::devices::ConfigKey::RLE,
+		"Run-length encoding (RLE).");
+	py_config_key.value("TriggerSlope", sv::devices::ConfigKey::TriggerSlope,
+		"The trigger slope.");
+	py_config_key.value("Averaging", sv::devices::ConfigKey::Averaging,
+		"Averaging.");
+	py_config_key.value("AvgSamples", sv::devices::ConfigKey::AvgSamples,
+		"The number of samples to be averaged over.");
+	py_config_key.value("TriggerSource", sv::devices::ConfigKey::TriggerSource,
+		"Trigger source.");
+	py_config_key.value("HorizTriggerPos", sv::devices::ConfigKey::HorizTriggerPos,
+		"Horizontal trigger position.");
+	py_config_key.value("BufferSize", sv::devices::ConfigKey::BufferSize,
+		"Buffer size.");
+	py_config_key.value("TimeBase", sv::devices::ConfigKey::TimeBase,
+		"Time base.");
+	py_config_key.value("Filter", sv::devices::ConfigKey::Filter,
+		"Filter.");
+	py_config_key.value("VDiv", sv::devices::ConfigKey::VDiv,
+		"Volts/div.");
+	py_config_key.value("Coupling", sv::devices::ConfigKey::Coupling,
+		"Coupling.");
+	py_config_key.value("TriggerMatch", sv::devices::ConfigKey::TriggerMatch,
+		"Trigger matches.");
+	py_config_key.value("SampleInterval", sv::devices::ConfigKey::SampleInterval,
+		"The sample interval, in ms.");
+	py_config_key.value("NumHDiv", sv::devices::ConfigKey::NumHDiv,
+		"Number of horizontal divisions, as related to `ConfigKey.TimeBase`.");
+	py_config_key.value("NumVDiv", sv::devices::ConfigKey::NumVDiv,
+		"Number of vertical divisions, as related to `ConfigKey.VDiv`.");
+	py_config_key.value("SplWeightFreq", sv::devices::ConfigKey::SplWeightFreq,
+		"Sound pressure level frequency weighting.");
+	py_config_key.value("SplWeightTime", sv::devices::ConfigKey::SplWeightTime,
+		"Sound pressure level time weighting.");
+	py_config_key.value("SplMeasurementRange", sv::devices::ConfigKey::SplMeasurementRange,
+		"Sound pressure level measurement range.");
+	py_config_key.value("HoldMax", sv::devices::ConfigKey::HoldMax,
+		"Max hold mode.");
+	py_config_key.value("HoldMin", sv::devices::ConfigKey::HoldMin,
+		"Min hold mode.");
+	py_config_key.value("VoltageThreshold", sv::devices::ConfigKey::VoltageThreshold,
+		"Logic low-high threshold range.");
+	py_config_key.value("ExternalClock", sv::devices::ConfigKey::ExternalClock,
+		"Using an external clock.");
+	py_config_key.value("Swap", sv::devices::ConfigKey::Swap,
+		"Swapping channels.");
+	py_config_key.value("CenterFrequency", sv::devices::ConfigKey::CenterFrequency,
+		"Center frequency.");
+	py_config_key.value("NumLogicChannels", sv::devices::ConfigKey::NumLogicChannels,
+		"The number of logic channels.");
+	py_config_key.value("NumAnalogChannels", sv::devices::ConfigKey::NumAnalogChannels,
+		"The number of analog channels.");
+	py_config_key.value("Voltage", sv::devices::ConfigKey::Voltage,
+		"Current voltage.");
+	py_config_key.value("VoltageTarget", sv::devices::ConfigKey::VoltageTarget,
+		"Maximum target voltage.");
+	py_config_key.value("Current", sv::devices::ConfigKey::Current,
+		"Current current.");
+	py_config_key.value("CurrentLimit", sv::devices::ConfigKey::CurrentLimit,
+		"Current limit.");
+	py_config_key.value("Enabled", sv::devices::ConfigKey::Enabled,
+		"Enabling/disabling a channel (group).");
+	py_config_key.value("ChannelConfig", sv::devices::ConfigKey::ChannelConfig,
+		"Channel configuration.");
+	py_config_key.value("OverVoltageProtectionEnabled", sv::devices::ConfigKey::OverVoltageProtectionEnabled,
+		"Enabling/disable over voltage protection (OVP) feature.");
+	py_config_key.value("OverVoltageProtectionActive", sv::devices::ConfigKey::OverVoltageProtectionActive,
+		"Status of over voltage protection (OVP).");
+	py_config_key.value("OverVoltageProtectionThreshold", sv::devices::ConfigKey::OverVoltageProtectionThreshold,
+		"Over voltage protection (OVP) threshold.");
+	py_config_key.value("OverCurrentProtectionEnabled", sv::devices::ConfigKey::OverCurrentProtectionEnabled,
+		"Enabling/disable  over current protection (OCP) feature.");
+	py_config_key.value("OverCurrentProtectionActive", sv::devices::ConfigKey::OverCurrentProtectionActive,
+		"Status of over current protection (OCP).");
+	py_config_key.value("OverCurrentProtectionThreshold", sv::devices::ConfigKey::OverCurrentProtectionThreshold,
+		"Over current protection (OCP) threshold.");
+	py_config_key.value("OverTemperatureProtectionEnabled", sv::devices::ConfigKey::OverTemperatureProtectionEnabled,
+		"Enabling/disable over temperature protection (OTP) feature.");
+	py_config_key.value("OverTemperatureProtectionActive", sv::devices::ConfigKey::OverTemperatureProtectionActive,
+		"Status of over temperature protection (OTP).");
+	py_config_key.value("UnderVoltageConditionEnabled", sv::devices::ConfigKey::UnderVoltageConditionEnabled,
+		"Enabling/disable under voltage condition (UVC) feature.");
+	py_config_key.value("UnderVoltageConditionActive", sv::devices::ConfigKey::UnderVoltageConditionActive,
+		"Status of under voltage condition (UVC).");
+	py_config_key.value("UnderVoltageConditionThreshold", sv::devices::ConfigKey::UnderVoltageConditionThreshold,
+		"Under voltage condition threshold (UVC).");
+	py_config_key.value("ClockEdge", sv::devices::ConfigKey::ClockEdge,
+		"Choice of clock edge for external clock (``r`` or ``f``).");
+	py_config_key.value("Amplitude", sv::devices::ConfigKey::Amplitude,
+		"Amplitude of a source without strictly-defined `ConfigKey.MeasuredQuantity`.");
+	py_config_key.value("Regulation", sv::devices::ConfigKey::Regulation,
+		"Channel regulation. ``CV``, ``CC`` or ``UR``, denoting constant voltage, constant "
+		"current or unregulated. ``CC-`` denotes a power supply in current sink mode "
+		"(e.g. HP 66xxB). An empty string is used when there is no regulation, e.g. "
+		" the output is disabled.");
+	py_config_key.value("OutputFrequency", sv::devices::ConfigKey::OutputFrequency,
+		"Output frequency in Hz.");
+	py_config_key.value("OutputFrequencyTarget", sv::devices::ConfigKey::OutputFrequencyTarget,
+		"Output frequency target in Hz.");
+	py_config_key.value("MeasuredQuantity", sv::devices::ConfigKey::MeasuredQuantity,
+		"Measured quantity.");
+	py_config_key.value("EquivCircuitModel", sv::devices::ConfigKey::EquivCircuitModel,
+		"Equivalent circuit model.");
+	py_config_key.value("TriggerLevel", sv::devices::ConfigKey::TriggerLevel,
+		"Trigger level.");
+	py_config_key.value("ExternalClockSource", sv::devices::ConfigKey::ExternalClockSource,
+		"Which external clock source to use if the device supports multiple external clock channels.");
+	py_config_key.value("Offset", sv::devices::ConfigKey::Offset,
+		"Offset of a source without strictly-defined `ConfigKey.MeasuredQuantity`.");
+	py_config_key.value("TriggerPattern", sv::devices::ConfigKey::TriggerPattern,
+		"The pattern for the logic trigger.");
+	py_config_key.value("HighResolution", sv::devices::ConfigKey::HighResolution,
+		"High resolution mode.");
+	py_config_key.value("PeakDetection", sv::devices::ConfigKey::PeakDetection,
+		"Peak detection.");
+	py_config_key.value("LogicThreshold", sv::devices::ConfigKey::LogicThreshold,
+		"Logic threshold: predefined levels (``TTL``, ``ECL``, ``CMOS``, etc).");
+	py_config_key.value("LogicThresholdCustom", sv::devices::ConfigKey::LogicThresholdCustom,
+		"Logic threshold: custom numerical value.");
+	py_config_key.value("Range", sv::devices::ConfigKey::Range,
+		"The measurement range of a DMM or the output range of a power supply.");
+	py_config_key.value("Digits", sv::devices::ConfigKey::Digits,
+		"The number of digits (e.g. for a DMM).");
+	py_config_key.value("SessionFile", sv::devices::ConfigKey::SessionFile,
+		"Session filename.");
+	py_config_key.value("CaptureFile", sv::devices::ConfigKey::CaptureFile,
+		"The capturefile to inject.");
+	py_config_key.value("CaptureUnitSize", sv::devices::ConfigKey::CaptureUnitSize,
+		"The capturefile unit size.");
+	py_config_key.value("PowerOff", sv::devices::ConfigKey::PowerOff,
+		"Power off the device.");
+	py_config_key.value("DataSource", sv::devices::ConfigKey::DataSource,
+		"Data source for acquisition.");
+	py_config_key.value("ProbeFactor", sv::devices::ConfigKey::ProbeFactor,
+		"The probe factor.");
+	py_config_key.value("ADCPowerlineCycles", sv::devices::ConfigKey::ADCPowerlineCycles,
+		"Number of powerline cycles for ADC integration time.");
+	py_config_key.value("ChannelGroup", sv::devices::ConfigKey::ChannelGroup,
+		"Which channel group to assign following meta packages to.");
+	py_config_key.value("DataLog", sv::devices::ConfigKey::DataLog,
+		"The device has internal storage, into which data is logged.");
+	py_config_key.value("DeviceMode", sv::devices::ConfigKey::DeviceMode,
+		"Device mode for multi-function devices.");
+	py_config_key.value("TestMode", sv::devices::ConfigKey::TestMode,
+		"Self test mode.");
+	py_config_key.value("Unknown", sv::devices::ConfigKey::Unknown,
+		"Unknown config key.");
 
 	py::enum_<sv::data::Quantity> py_quantity(m, "Quantity",
 		"Enum of all available quantities.");
