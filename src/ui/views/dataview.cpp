@@ -17,12 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QAction>
+
 #include <memory>
 #include <mutex>
 #include <set>
 #include <string>
 
-#include <QAction>
 #include <QDebug>
 #include <QList>
 #include <QSettings>
@@ -255,4 +256,3 @@ void DataView::on_action_add_signal_triggered()
 } // namespace views
 } // namespace ui
 } // namespace sv
-

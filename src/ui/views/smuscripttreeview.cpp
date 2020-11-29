@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QTreeView>
+
 #include <memory>
 #include <string>
 
@@ -31,7 +33,6 @@
 #include <QString>
 #include <QTimer>
 #include <QToolBar>
-#include <QTreeView>
 #include <QUuid>
 #include <QVBoxLayout>
 
