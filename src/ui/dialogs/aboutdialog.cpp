@@ -88,10 +88,12 @@ AboutDialog::AboutDialog(DeviceManager &device_manager,
 	root_layout->addLayout(tab_layout);
 	root_layout->addWidget(button_box);
 
-	connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
-	connect(page_list, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
-		this, SLOT(on_page_changed(QListWidgetItem*, QListWidgetItem*)));
+	connect(button_box, &QDialogButtonBox::accepted,
+		this, &AboutDialog::accept);
+	connect(button_box, &QDialogButtonBox::rejected,
+		this, &AboutDialog::rejected);
+	connect(page_list, &QListWidget::currentItemChanged,
+		this, &AboutDialog::on_page_changed);
 }
 
 void AboutDialog::create_pages()

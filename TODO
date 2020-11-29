@@ -12,6 +12,14 @@ ToDo clang-tidy
 - bugprone-narrowing-conversions: Maybe use boost convert_to<>() -> see util.cpp, format_time_minutes()
 
 
+ToDo clazy
+----------
+
+- Disabled due to false positives:
+	- connect-non-signal
+	- incorrect-emit
+
+
 ToDo Scope
 ----------
 

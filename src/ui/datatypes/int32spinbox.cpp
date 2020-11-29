@@ -84,8 +84,8 @@ void Int32SpinBox::connect_signals()
 
 	// Property -> Widget
 	if (auto_update_ && property_ != nullptr) {
-		connect(property_.get(), SIGNAL(value_changed(const QVariant)),
-			this, SLOT(on_value_changed(const QVariant)));
+		connect(property_.get(), &data::properties::BaseProperty::value_changed,
+			this, &Int32SpinBox::on_value_changed);
 		connect(property_.get(), &data::properties::BaseProperty::list_changed,
 			this, &Int32SpinBox::on_list_changed);
 	}
@@ -94,16 +94,16 @@ void Int32SpinBox::connect_signals()
 void Int32SpinBox::connect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
-		connect(this, SIGNAL(editingFinished()),
-			this, SLOT(value_changed()));
+		connect(this, &Int32SpinBox::editingFinished,
+			this, &Int32SpinBox::value_changed);
 	}
 }
 
 void Int32SpinBox::disconnect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
-		disconnect(this, SIGNAL(editingFinished()),
-			this, SLOT(value_changed()));
+		disconnect(this, &Int32SpinBox::editingFinished,
+			this, &Int32SpinBox::value_changed);
 	}
 }
 

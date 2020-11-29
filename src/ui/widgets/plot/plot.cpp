@@ -167,8 +167,8 @@ Plot::Plot(Session &session, QWidget *parent) : QwtPlot(parent),
 	QwtLegend *legend = new QwtLegend;
 	legend->setDefaultItemMode(QwtLegendData::Clickable);
 	this->insertLegend(legend, QwtPlot::BottomLegend);
-	connect(legend, SIGNAL(clicked(const QVariant &, int)),
-		this, SLOT(on_legend_clicked(const QVariant &, int)));
+	connect(legend, &QwtLegend::clicked,
+		this, &Plot::on_legend_clicked);
 
 	QwtPlotGrid *grid = new QwtPlotGrid();
 	grid->setPen(Qt::gray, 0.0, Qt::DotLine);
@@ -190,13 +190,13 @@ Plot::Plot(Session &session, QWidget *parent) : QwtPlot(parent),
 
 	// Panning via the canvas
 	plot_panner_ = new QwtPlotPanner(this->canvas());
-	connect(plot_panner_, SIGNAL(panned(int, int)),
-		this, SLOT(lock_all_axis()));
+	connect(plot_panner_, &QwtPlotPanner::panned,
+		this, &Plot::lock_all_axis);
 
 	// Zooming via the canvas
 	plot_magnifier_ = new PlotMagnifier(this->canvas());
-	connect(plot_magnifier_, SIGNAL(magnified(double)),
-		this, SLOT(lock_all_axis()));
+	connect(plot_magnifier_, &PlotMagnifier::magnified,
+		this, &Plot::lock_all_axis);
 }
 
 Plot::~Plot()
@@ -552,8 +552,9 @@ void Plot::add_marker(sv::ui::widgets::plot::Curve *curve)
 			QwtPlot::xBottom, QwtPlot::yLeft, QwtPlotPicker::NoRubberBand,
 			QwtPicker::AlwaysOff, this->canvas());
 		marker_select_picker_->setStateMachine(new QwtPickerClickPointMachine());
-		connect(marker_select_picker_, SIGNAL(selected(const QPointF &)),
-			this, SLOT(on_marker_selected(const QPointF)));
+		connect(
+			marker_select_picker_, QOverload<const QPointF &>::of(&QwtPlotPicker::selected),
+			this, &Plot::on_marker_selected);
 	}
 	if (!marker_move_picker_) {
 		// Use QwtPlot::xBottom and QwtPlot::yLeft as axis. We calculate the
@@ -562,8 +563,8 @@ void Plot::add_marker(sv::ui::widgets::plot::Curve *curve)
 			QwtPlot::xBottom, QwtPlot::yLeft,
 			QwtPlotPicker::NoRubberBand, QwtPicker::AlwaysOff, this->canvas());
 		marker_move_picker_->setStateMachine(new QwtPickerDragPointMachine());
-		connect(marker_move_picker_, SIGNAL(moved(QPointF)),
-			this, SLOT(on_marker_moved(QPointF)));
+		connect(marker_move_picker_, &QwtPlotPicker::moved,
+			this, &Plot::on_marker_moved);
 	}
 	/*
 	 * TODO: Maybe we could use a QwtPickerTrackerMachine for mouse movement.
@@ -609,12 +610,13 @@ void Plot::remove_marker(QwtPlotMarker *marker)
 
 	if (marker_curve_map_.empty()) {
 		// No markers left.
-		disconnect(marker_select_picker_, SIGNAL(selected(const QPointF &)),
-			this, SLOT(on_marker_selected(const QPointF)));
+		disconnect(
+			marker_select_picker_, QOverload<const QPointF &>::of(&QwtPlotPicker::selected),
+			this, &Plot::on_marker_selected);
 		delete marker_select_picker_;
 		marker_select_picker_ = nullptr;
-		disconnect(marker_move_picker_, SIGNAL(moved(QPointF)),
-			this, SLOT(on_marker_moved(QPointF)));
+		disconnect(marker_move_picker_, &QwtPlotPicker::moved,
+			this, &Plot::on_marker_moved);
 		delete marker_move_picker_;
 		marker_move_picker_ = nullptr;
 	}

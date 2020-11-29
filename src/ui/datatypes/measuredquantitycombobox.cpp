@@ -90,8 +90,8 @@ void MeasuredQuantityComboBox::connect_signals()
 
 	// Property -> Widget
 	if (auto_update_ && property_ != nullptr) {
-		connect(property_.get(), SIGNAL(value_changed(const QVariant)),
-			this, SLOT(on_value_changed(const QVariant)));
+		connect(property_.get(), &data::properties::BaseProperty::value_changed,
+			this, &MeasuredQuantityComboBox::on_value_changed);
 		connect(property_.get(), &data::properties::BaseProperty::list_changed,
 			this, &MeasuredQuantityComboBox::on_list_changed);
 	}
@@ -100,16 +100,18 @@ void MeasuredQuantityComboBox::connect_signals()
 void MeasuredQuantityComboBox::connect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
-		connect(this, SIGNAL(currentIndexChanged(int)),
-			this, SLOT(value_changed(int)));
+		connect(
+			this, QOverload<int>::of(&MeasuredQuantityComboBox::currentIndexChanged),
+			this, &MeasuredQuantityComboBox::value_changed);
 	}
 }
 
 void MeasuredQuantityComboBox::disconnect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
-		disconnect(this, SIGNAL(currentIndexChanged(int)),
-			this, SLOT(value_changed(int)));
+		disconnect(
+			this, QOverload<int>::of(&MeasuredQuantityComboBox::currentIndexChanged),
+			this, &MeasuredQuantityComboBox::value_changed);
 	}
 }
 
@@ -118,10 +120,8 @@ QVariant MeasuredQuantityComboBox::variant_value() const
 	return this->currentData();
 }
 
-void MeasuredQuantityComboBox::value_changed(int index)
+void MeasuredQuantityComboBox::value_changed()
 {
-	(void)index;
-
 	if (property_ != nullptr) {
 		property_->change_value(this->currentData());
 	}

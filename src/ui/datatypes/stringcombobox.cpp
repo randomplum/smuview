@@ -61,7 +61,10 @@ void StringComboBox::setup_ui()
 		shared_ptr<data::properties::StringProperty> string_prop =
 			dynamic_pointer_cast<data::properties::StringProperty>(property_);
 
-		this->addItems(string_prop->list_values());
+		const auto str_values = string_prop->list_values();
+		for (const auto &str : str_values) {
+			this->addItem(str, QVariant::fromValue(str));
+		}
 	}
 	else {
 		this->setEditable(true);
@@ -79,8 +82,8 @@ void StringComboBox::connect_signals()
 
 	// Property -> Widget
 	if (auto_update_ && property_ != nullptr) {
-		connect(property_.get(), SIGNAL(value_changed(const QVariant)),
-			this, SLOT(on_value_changed(const QVariant)));
+		connect(property_.get(), &data::properties::BaseProperty::value_changed,
+			this, &StringComboBox::on_value_changed);
 		connect(property_.get(), &data::properties::BaseProperty::list_changed,
 			this, &StringComboBox::on_list_changed);
 	}
@@ -90,12 +93,13 @@ void StringComboBox::connect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
 		if (property_->is_listable()) {
-			connect(this, SIGNAL(currentIndexChanged(const QString)),
-				this, SLOT(value_changed(const QString)));
+			connect(
+				this, QOverload<int>::of(&StringComboBox::currentIndexChanged),
+				this, &StringComboBox::value_changed);
 		}
 		else {
-			connect(this, SIGNAL(editTextChanged(const QString)),
-				this, SLOT(value_changed(const QString)));
+			connect(this, &StringComboBox::editTextChanged,
+				this, &StringComboBox::value_changed);
 		}
 	}
 }
@@ -104,25 +108,26 @@ void StringComboBox::disconnect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
 		if (property_->is_listable()) {
-			disconnect(this, SIGNAL(currentIndexChanged(const QString)),
-				this, SLOT(value_changed(const QString)));
+			disconnect(
+				this, QOverload<int>::of(&StringComboBox::currentIndexChanged),
+				this, &StringComboBox::value_changed);
 		}
 		else {
-			disconnect(this, SIGNAL(editTextChanged(const QString)),
-				this, SLOT(value_changed(const QString)));
+			disconnect(this, &StringComboBox::editTextChanged,
+				this, &StringComboBox::value_changed);
 		}
 	}
 }
 
 QVariant StringComboBox::variant_value() const
 {
-	return QVariant(this->currentText());
+	return QVariant(this->currentData());
 }
 
-void StringComboBox::value_changed(const QString &value)
+void StringComboBox::value_changed()
 {
 	if (property_ != nullptr)
-		property_->change_value(QVariant(value));
+		property_->change_value(this->currentData());
 }
 
 void StringComboBox::on_value_changed(const QVariant &qvar)
@@ -145,7 +150,10 @@ void StringComboBox::on_list_changed()
 
 		shared_ptr<data::properties::StringProperty> string_prop =
 			dynamic_pointer_cast<data::properties::StringProperty>(property_);
-		this->addItems(string_prop->list_values());
+		const auto str_values = string_prop->list_values();
+		for (const auto &str : str_values) {
+			this->addItem(str, QVariant::fromValue(str));
+		}
 
 		if (property_->is_getable())
 			this->setCurrentText(string_prop->string_value());

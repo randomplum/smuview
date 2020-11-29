@@ -78,24 +78,24 @@ void BoolButton::connect_signals()
 
 	// Property -> Widget (no ckeck for getable, comes via meta package!)
 	if (auto_update_ && property_ != nullptr) {
-		connect(property_.get(), SIGNAL(value_changed(const QVariant)),
-			this, SLOT(on_value_changed(const QVariant)));
+		connect(property_.get(), &data::properties::BaseProperty::value_changed,
+			this, &BoolButton::on_value_changed);
 	}
 }
 
 void BoolButton::connect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
-		connect(this, SIGNAL(toggled(bool)),
-			this, SLOT(value_changed(const bool)));
+		connect(this, &BoolButton::toggled,
+			this, &BoolButton::value_changed);
 	}
 }
 
 void BoolButton::disconnect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
-		disconnect(this, SIGNAL(toggled(bool)),
-			this, SLOT(value_changed(const bool)));
+		disconnect(this, &BoolButton::toggled,
+			this, &BoolButton::value_changed);
 	}
 }
 
