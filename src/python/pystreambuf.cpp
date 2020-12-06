@@ -17,14 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "pystreambuf.hpp"
+
 #include <mutex>
 #include <string>
 #include <vector>
 
 #include <Python.h>
 #include <pyerrors.h>
-
-#include "pystreambuf.hpp"
 
 namespace sv {
 namespace python {

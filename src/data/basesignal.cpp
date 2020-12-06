@@ -19,13 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "basesignal.hpp"
+
 #include <cassert>
 #include <string>
 
 #include <QDebug>
 #include <QString>
 
-#include "basesignal.hpp"
 #include "src/channels/basechannel.hpp"
 #include "src/data/datautil.hpp"
 

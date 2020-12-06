@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "src/channels/basechannel.hpp"
+
 #include <cassert>
 #include <memory>
 #include <set>
@@ -25,7 +27,6 @@
 #include <QDebug>
 
 #include "userchannel.hpp"
-#include "src/channels/basechannel.hpp"
 #include "src/data/analogtimesignal.hpp"
 #include "src/data/basesignal.hpp"
 #include "src/data/datautil.hpp"

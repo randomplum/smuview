@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "src/data/properties/baseproperty.hpp"
+
 #include <memory>
 #include <utility>
 #include <vector>
