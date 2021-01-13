@@ -69,7 +69,7 @@ install:
 
 script:
   # Build qwt
-  - wget "https://sourceforge.net/projects/qwt/files/qwt/6.1.4/qwt-6.1.4.tar.bz2/download" --trust-server-names
+  - wget "https://sourceforge.net/projects/qwt/files/qwt/6.1.5/qwt-6.1.5.tar.bz2/download" --trust-server-names
   - tar xf qwt-*.tar.bz2
   - cd qwt-*/
   - qmake qwt.pro
