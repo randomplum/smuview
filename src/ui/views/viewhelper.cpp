@@ -45,6 +45,9 @@
 #include "src/ui/views/genericcontrolview.hpp"
 #include "src/ui/views/measurementcontrolview.hpp"
 #include "src/ui/views/powerpanelview.hpp"
+#include "src/ui/views/scopehorizontalcontrolview.hpp"
+#include "src/ui/views/scopetriggercontrolview.hpp"
+#include "src/ui/views/scopeverticalcontrolview.hpp"
 #include "src/ui/views/sequenceoutputview.hpp"
 #include "src/ui/views/smuscriptoutputview.hpp"
 #include "src/ui/views/smuscriptview.hpp"
@@ -94,6 +97,42 @@ BaseView *get_view_for_configurable(Session &session,
 		configurable->has_set_config(ConfigKey::UnderVoltageConditionThreshold))) {
 
 		return new SourceSinkControlView(session, configurable);
+	}
+
+	// Vertical control for scopes
+	if (configurable->device_type() == DeviceType::Oscilloscope &&
+		(configurable->has_get_config(ConfigKey::Enabled) ||
+		configurable->has_set_config(ConfigKey::Enabled) ||
+		configurable->has_get_config(ConfigKey::VDiv) ||
+		configurable->has_set_config(ConfigKey::VDiv) ||
+		configurable->has_get_config(ConfigKey::Coupling) ||
+		configurable->has_set_config(ConfigKey::Coupling) ||
+		configurable->has_get_config(ConfigKey::Filter) ||
+		configurable->has_set_config(ConfigKey::Filter))) {
+
+		return new ScopeVerticalControlView(session, configurable);
+	}
+
+	// Trigger control for scopes
+	/* TODO: Multiple views for one configurable
+	if (configurable->device_type() == DeviceType::Oscilloscope &&
+		(configurable->has_get_config(ConfigKey::TriggerSource) ||
+		configurable->has_set_config(ConfigKey::TriggerSource) ||
+		configurable->has_get_config(ConfigKey::TriggerSlope) ||
+		configurable->has_set_config(ConfigKey::TriggerSlope) ||
+		configurable->has_get_config(ConfigKey::TriggerLevel) ||
+		configurable->has_set_config(ConfigKey::TriggerLevel))) {
+
+		return new ScopeTriggerControlView(session, configurable);
+	}
+	*/
+
+	// Horizontal control for scopes
+	if (configurable->device_type() == DeviceType::Oscilloscope &&
+		(configurable->has_get_config(ConfigKey::TimeBase) ||
+		configurable->has_set_config(ConfigKey::TimeBase))) {
+
+		return new ScopeHorizontalControlView(session, configurable);
 	}
 
 	// View for Demo Device
@@ -178,6 +217,18 @@ BaseView *get_view_from_settings(Session &session, QSettings &settings,
 	}
 	else if (type == "measurementcontrol") {
 		view = MeasurementControlView::init_from_settings(
+			session, settings, uuid, origin_device);
+	}
+	else if (type == "scopehorizontalcontrol") {
+		view = ScopeHorizontalControlView::init_from_settings(
+			session, settings, uuid, origin_device);
+	}
+	else if (type == "scopetriggercontrol") {
+		view = ScopeTriggerControlView::init_from_settings(
+			session, settings, uuid, origin_device);
+	}
+	else if (type == "scopeverticalcontrol") {
+		view = ScopeVerticalControlView::init_from_settings(
 			session, settings, uuid, origin_device);
 	}
 	else if (type == "sourcesinkcontrol") {
