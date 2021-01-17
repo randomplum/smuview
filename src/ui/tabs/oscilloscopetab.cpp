@@ -62,16 +62,10 @@ void OscilloscopeTab::setup_ui()
 		if (!configurable->is_controllable())
 			continue;
 
-		auto view = views::viewhelper::get_view_for_configurable(
+		auto configurable_views = views::viewhelper::get_views_for_configurable(
 			session_, configurable);
-		if (view != NULL)
-			add_view(view, Qt::BottomDockWidgetArea);
-
-		// TODO: Use ViewHelper also for trigger view
-		if (configurable->name().empty()) {
-			add_view(
-				new views::ScopeTriggerControlView(session_, configurable),
-				Qt::BottomDockWidgetArea);
+		for (const auto &configurable_view : configurable_views) {
+			add_view(configurable_view, Qt::BottomDockWidgetArea);
 		}
 	}
 
