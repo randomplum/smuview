@@ -64,6 +64,7 @@ namespace views {
 
 enum class PlotType {
 	TimePlot,
+	ScopePlot,
 	XYPlot,
 };
 
