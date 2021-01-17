@@ -57,6 +57,7 @@
 #include "src/ui/views/xyplotview.hpp"
 
 using std::shared_ptr;
+using std::vector;
 
 using sv::devices::ConfigKey;
 using sv::devices::DeviceType;
@@ -66,11 +67,13 @@ namespace ui {
 namespace views {
 namespace viewhelper {
 
-BaseView *get_view_for_configurable(Session &session,
+vector<BaseView *> get_views_for_configurable(Session &session,
 	shared_ptr<sv::devices::Configurable> configurable)
 {
+	vector<BaseView *> views;
+
 	if (!configurable)
-		return nullptr;
+		return views;
 
 	// Power supplies or electronic loads control view
 	if ((configurable->device_type() == DeviceType::PowerSupply ||
@@ -96,7 +99,7 @@ BaseView *get_view_for_configurable(Session &session,
 		configurable->has_get_config(ConfigKey::UnderVoltageConditionThreshold) ||
 		configurable->has_set_config(ConfigKey::UnderVoltageConditionThreshold))) {
 
-		return new SourceSinkControlView(session, configurable);
+		views.push_back(new SourceSinkControlView(session, configurable));
 	}
 
 	// Vertical control for scopes
@@ -110,11 +113,10 @@ BaseView *get_view_for_configurable(Session &session,
 		configurable->has_get_config(ConfigKey::Filter) ||
 		configurable->has_set_config(ConfigKey::Filter))) {
 
-		return new ScopeVerticalControlView(session, configurable);
+		views.push_back(new ScopeVerticalControlView(session, configurable));
 	}
 
 	// Trigger control for scopes
-	/* TODO: Multiple views for one configurable
 	if (configurable->device_type() == DeviceType::Oscilloscope &&
 		(configurable->has_get_config(ConfigKey::TriggerSource) ||
 		configurable->has_set_config(ConfigKey::TriggerSource) ||
@@ -123,16 +125,15 @@ BaseView *get_view_for_configurable(Session &session,
 		configurable->has_get_config(ConfigKey::TriggerLevel) ||
 		configurable->has_set_config(ConfigKey::TriggerLevel))) {
 
-		return new ScopeTriggerControlView(session, configurable);
+		views.push_back(new ScopeTriggerControlView(session, configurable));
 	}
-	*/
 
 	// Horizontal control for scopes
 	if (configurable->device_type() == DeviceType::Oscilloscope &&
 		(configurable->has_get_config(ConfigKey::TimeBase) ||
 		configurable->has_set_config(ConfigKey::TimeBase))) {
 
-		return new ScopeHorizontalControlView(session, configurable);
+		views.push_back(new ScopeHorizontalControlView(session, configurable));
 	}
 
 	// View for Demo Device
@@ -144,7 +145,7 @@ BaseView *get_view_for_configurable(Session &session,
 		configurable->has_get_config(ConfigKey::Offset) ||
 		configurable->has_set_config(ConfigKey::Offset))) {
 
-		return new DemoControlView(session, configurable);
+		views.push_back(new DemoControlView(session, configurable));
 	}
 
 	// Measurement devices like DMMs, scales, LCR meters, etc.
@@ -161,17 +162,18 @@ BaseView *get_view_for_configurable(Session &session,
 		configurable->has_get_config(ConfigKey::Range) ||
 		configurable->has_set_config(ConfigKey::Range))) {
 
-		return new MeasurementControlView(session, configurable);
+		views.push_back(new MeasurementControlView(session, configurable));
 	}
 
-	// Generic control view
-	if (!configurable->getable_configs().empty() ||
-		!configurable->setable_configs().empty()) {
+	// Fallback: Generic control view if nothing else fits.
+	if (views.empty() &&
+		(!configurable->getable_configs().empty() ||
+		!configurable->setable_configs().empty())) {
 
-		return new GenericControlView(session, configurable);
+		views.push_back(new GenericControlView(session, configurable));
 	}
 
-	return nullptr;
+	return views;
 }
 
 BaseView *get_view_from_settings(Session &session, QSettings &settings,
