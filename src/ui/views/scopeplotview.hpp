@@ -79,7 +79,7 @@ private:
 	vector<shared_ptr<channels::BaseChannel>> channels_;
 
 protected Q_SLOTS:
-	void on_action_add_curve_triggered() override;
+	//void on_action_add_curve_triggered() override;
 
 };
 

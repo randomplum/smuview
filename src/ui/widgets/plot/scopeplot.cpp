@@ -43,7 +43,11 @@
 #include <qwt_plot_curve.h>
 #include <qwt_plot_directpainter.h>
 #include <qwt_plot_grid.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+// This header uses deprecated declarations, disable checks.
 #include <qwt_plot_layout.h>
+#pragma GCC diagnostic pop
 #include <qwt_plot_textlabel.h>
 #include <qwt_plot_panner.h>
 #include <qwt_plot_picker.h>
@@ -420,9 +424,10 @@ void ScopePlot::on_legend_clicked(const QVariant &item_info, int index)
 
 	QwtPlotItem *plot_item = infoToItem(item_info);
 	if (plot_item) {
-		QwtPlotCurve *plot_curve = (QwtPlotCurve *)plot_item;
-		ui::dialogs::PlotCurveConfigDialog dlg(plot_curve);
-		dlg.exec();
+		// TODO
+		//QwtPlotCurve *plot_curve = (QwtPlotCurve *)plot_item;
+		//ui::dialogs::PlotCurveConfigDialog dlg(plot_curve);
+		//dlg.exec();
 	}
 }
 

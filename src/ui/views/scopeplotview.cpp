@@ -66,6 +66,7 @@ QString ScopePlotView::title() const
 
 string ScopePlotView::add_channel(shared_ptr<channels::BaseChannel> channel)
 {
+	(void)channel;
 	/*
 	if (!plot_->add_channel(channel->display_name()))
 		return;
