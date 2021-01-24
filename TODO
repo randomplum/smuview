@@ -11,12 +11,10 @@ ToDo clang-tidy
 - src/ui/datatypes/doubledisplay.hpp: setup_ui() override, b/c of widgets::MonoFontDisplay.
 - bugprone-narrowing-conversions: Maybe use boost convert_to<>() -> see util.cpp, format_time_minutes()
 
-
 ToDo Scope
 ----------
 
 - Fix ConfigKey sample_rate in UInt64Property::change_value(const QVariant qvar)
-
 
 ToDo
 ----
@@ -25,7 +23,7 @@ ToDo
 - last_value_, min_value_, max_value_ -> std::atomic!
 - Plot: Sampling
 - Mutex for aquisition_state_?
-- Save session, save all data (gnuplot, octave, ...)
+- Save all data (gnuplot, octave, ...)
 	- add a saveutil.cpp
 - Configurable:
 	- default check for getable/setable in get/set functions without assert(false)?
@@ -81,7 +79,9 @@ ToDo
 - SettingsManager: Method for getting the QSettings object and maybe load an user defined QSettings-file.
 - example_multiplexer.py: Checkboxes in control views don't change.
 - HP-3478A: R4W -> R2W not working
-
+- Do we need:
+	- BaseDevice::next_channel_index_ / USER_CHANNEL_START_INDEX
+	- BaseDevice::next_configurable_index_ / CONFIGURABLE_START_INDEX
 
 Done
 ----
@@ -138,6 +138,7 @@ Done
 - ValueDisplay SLOTS: CallByRef &?
 - Connection dialog thread
 - BaseChannel::add_signal(), L. 156, Korad PSU TODO
+- Save session
 
 Won't fix
 ---------
