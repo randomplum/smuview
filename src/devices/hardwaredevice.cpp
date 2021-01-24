@@ -58,7 +58,9 @@ namespace devices {
 HardwareDevice::HardwareDevice(
 		const shared_ptr<sigrok::Context> sr_context,
 		shared_ptr<sigrok::HardwareDevice> sr_device) :
-	BaseDevice(sr_context, sr_device)
+	BaseDevice(sr_context, sr_device),
+	is_frame_open_(false),
+	is_frame_starting_(false)
 {
 	// Set options for different device types
 	// TODO: Multiple DeviceTypes per HardwareDevice
@@ -256,12 +258,14 @@ void HardwareDevice::feed_in_frame_begin()
 {
 	// TODO: use std::chrono / std::time
 	frame_start_timestamp_ = QDateTime::currentMSecsSinceEpoch() / (double)1000;
-	frame_began_ = true;
+	is_frame_open_ = true;
+	is_frame_starting_ = true;
 }
 
 void HardwareDevice::feed_in_frame_end()
 {
-	frame_began_ = false;
+	is_frame_open_ = false;
+	is_frame_starting_ = false;
 }
 
 void HardwareDevice::feed_in_logic(shared_ptr<sigrok::Logic> sr_logic)
@@ -303,12 +307,15 @@ void HardwareDevice::feed_in_analog(shared_ptr<sigrok::Analog> sr_analog)
 
 		// TODO: use std::chrono / std::time
 		double timestamp;
-		if (frame_began_)
+		if (is_frame_open_)
 			timestamp = frame_start_timestamp_;
 		else
 			timestamp = QDateTime::currentMSecsSinceEpoch() / (double)1000;
 
-		//channel->push_sample_sr_analog(channel_data++, timestamp, sr_analog);
+		if (type_ == DeviceType::Oscilloscope && is_frame_starting_) {
+			//channel->start_new_frame(frame_start_timestamp_); // TODO
+			is_frame_starting_ = false;
+		}
 		channel->push_interleaved_samples(channel_data++, num_samples,
 			sr_channels.size(), timestamp, samplerate, sr_analog);
 	}
