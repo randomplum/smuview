@@ -1,7 +1,7 @@
 /*
  * This file is part of the SmuView project.
  *
- * Copyright (C) 2017-2021 Frank Stettner <frank-stettner@gmx.net>
+ * Copyright (C) 2021 Frank Stettner <frank-stettner@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CHANNELS_HARDWARECHANNEL_HPP
-#define CHANNELS_HARDWARECHANNEL_HPP
+#ifndef CHANNELS_ANALOGCHANNEL_HPP
+#define CHANNELS_ANALOGCHANNEL_HPP
 
 #include <memory>
 #include <set>
@@ -26,7 +26,7 @@
 
 #include <QObject>
 
-#include "src/channels/basechannel.hpp"
+#include "src/channels/hardwarechannel.hpp"
 
 using std::set;
 using std::shared_ptr;
@@ -45,16 +45,16 @@ class BaseDevice;
 
 namespace channels {
 
-class HardwareChannel : public BaseChannel
+class AnalogChannel : public HardwareChannel
 {
 	Q_OBJECT
 
 public:
 	/**
-	 * A HardwareChannel does handle interleaved samples from a
-	 * (hardware) device.
+	 * A AnalogChannel does handle interleaved samples with timestamps from a
+	 * (slow) analog device.
 	 */
-	HardwareChannel(
+	AnalogChannel(
 		shared_ptr<sigrok::Channel> sr_channel,
 		shared_ptr<devices::BaseDevice> parent_device,
 		const set<string> &channel_group_names,
@@ -62,17 +62,22 @@ public:
 
 public:
 	/**
-	 * Add one or more interleaved samples to the channel.
+	 * A new frame has been opened.
 	 */
-	virtual void push_interleaved_samples(const float *data,
+	void start_new_frame(double timestamp, uint64_t samplerate) override;
+
+	/**
+	 * Add one or more interleaved samples with timestamps to the channel
+	 */
+	void push_interleaved_samples(const float *data,
 		const size_t sample_count, const size_t channel_stride,
 		const double timestamp, const uint64_t samplerate,
 		const uint64_t sample_interval,
-		shared_ptr<sigrok::Analog> sr_analog) = 0;
+		shared_ptr<sigrok::Analog> sr_analog) override;
 
 };
 
 } // namespace channels
 } // namespace sv
 
-#endif // CHANNELS_HARDWARECHANNEL_HPP
+#endif // CHANNELS_ANALOGCHANNEL_HPP

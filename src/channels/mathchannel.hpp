@@ -79,6 +79,11 @@ public:
 	 */
 	data::Unit unit();
 
+	/**
+	 * A new frame has been opened. Nothing to to for math channels.
+	 */
+	void start_new_frame(double timestamp, uint64_t samplerate) override;
+
 protected:
 	/**
 	 * Add a single sample with timestamp to the channel/signal

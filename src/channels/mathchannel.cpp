@@ -91,6 +91,12 @@ data::Unit MathChannel::unit()
 	return unit_;
 }
 
+void MathChannel::start_new_frame(double timestamp, uint64_t samplerate)
+{
+	(void)timestamp;
+	(void)samplerate;
+}
+
 void MathChannel::push_sample(double sample, double timestamp)
 {
 	auto signal = static_pointer_cast<data::AnalogTimeSignal>(actual_signal_);

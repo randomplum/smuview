@@ -66,6 +66,11 @@ public:
 		data::Quantity quantity, set<data::QuantityFlag> quantity_flags,
 		data::Unit unit, int digits, int decimal_places);
 
+	/**
+	 * A new frame has been opened. Nothing to to for user channels.
+	 */
+	void start_new_frame(double timestamp, uint64_t samplerate) override;
+
 };
 
 } // namespace channels

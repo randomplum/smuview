@@ -37,9 +37,11 @@
 #include "src/session.hpp"
 #include "src/settingsmanager.hpp"
 #include "src/util.hpp"
+#include "src/channels/analogchannel.hpp"
 #include "src/channels/basechannel.hpp"
 #include "src/channels/hardwarechannel.hpp"
 #include "src/channels/mathchannel.hpp"
+#include "src/channels/scopechannel.hpp"
 #include "src/channels/userchannel.hpp"
 #include "src/data/basesignal.hpp"
 #include "src/devices/configurable.hpp"
@@ -360,7 +362,8 @@ void BaseDevice::add_channel(shared_ptr<channels::BaseChannel> channel,
 }
 
 shared_ptr<channels::BaseChannel> BaseDevice::add_sr_channel(
-	shared_ptr<sigrok::Channel> sr_channel, const string &channel_group_name)
+	shared_ptr<sigrok::Channel> sr_channel, const string &channel_group_name,
+	const channels::ChannelType channel_type)
 {
 	// Check if channel already exists.
 	// NOTE: Channel names are unique per device.
@@ -370,8 +373,14 @@ shared_ptr<channels::BaseChannel> BaseDevice::add_sr_channel(
 	}
 	else {
 		set<string> chg_names { channel_group_name };
-		channel = make_shared<channels::HardwareChannel>(sr_channel,
-			shared_from_this(), chg_names, aquisition_start_timestamp_);
+		if (channel_type == channels::ChannelType::AnalogChannel) {
+			channel = make_shared<channels::AnalogChannel>(sr_channel,
+				shared_from_this(), chg_names, aquisition_start_timestamp_);
+		}
+		else if (channel_type == channels::ChannelType::ScopeChannel) {
+			channel = make_shared<channels::ScopeChannel>(sr_channel,
+				shared_from_this(), chg_names, aquisition_start_timestamp_);
+		}
 
 		// map<shared_ptr<sigrok::Channel>, shared_ptr<channels::BaseChannel>> sr_channel_map_;
 		sr_channel_map_.insert(make_pair(sr_channel, channel));

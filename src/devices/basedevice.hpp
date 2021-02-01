@@ -55,6 +55,7 @@ namespace sv {
 class DeviceManager;
 
 namespace channels {
+enum class ChannelType;
 class BaseChannel;
 class MathChannel;
 class UserChannel;
@@ -169,7 +170,8 @@ public:
 	 */
 	shared_ptr<channels::BaseChannel> add_sr_channel(
 		shared_ptr<sigrok::Channel> sr_channel,
-		const string &channel_group_name);
+		const string &channel_group_name,
+		const channels::ChannelType channel_type);
 
 	/**
 	 * Add a math channel to the device

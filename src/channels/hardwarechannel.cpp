@@ -55,76 +55,7 @@ HardwareChannel::HardwareChannel(
 {
 	assert(sr_channel);
 
-	type_ = ChannelType::AnalogChannel;
 	name_ = sr_channel_->name();
-}
-
-void HardwareChannel::push_interleaved_samples(const float *data,
-	size_t sample_count, size_t stride, double timestamp, uint64_t samplerate,
-	shared_ptr<sigrok::Analog> sr_analog)
-{
-	//lock_guard<recursive_mutex> lock(mutex_);
-
-	/*
-	 * NOTE: Sometimes the mq is not set (e.g. for the demo driver in
-	 *       sigrok 6.0.0) and mq() just throws an exception, without a
-	 *       possibility to check if mq is set or not.
-	 */
-	data::Quantity quantity;
-	try {
-		quantity = data::datautil::get_quantity(sr_analog->mq());
-	}
-	catch(sigrok::Error &e) {
-		quantity = data::Quantity::Unknown;
-	}
-	set<data::QuantityFlag> quantity_flags =
-		data::datautil::get_quantity_flags(sr_analog->mq_flags());
-
-	if (!actual_signal_ || actual_signal_->quantity() != quantity ||
-		actual_signal_->quantity_flags() != quantity_flags) {
-
-		/* actual_signal_ not set or doesn't match the mq/mqf */
-		measured_quantity_t mq = make_pair(quantity, quantity_flags);
-		size_t signals_count = signal_map_.count(mq);
-		if (signals_count == 0) {
-			data::Unit unit = data::datautil::get_unit(sr_analog->unit());
-			add_signal(quantity, quantity_flags, unit);
-			qWarning() << "HardwareChannel::push_sample_sr_analog(): " <<
-				display_name() << " - No signal found: " <<
-				actual_signal_->display_name();
-		}
-		else if (signals_count > 1) {
-			throw ("More than one signal found for " + name());
-		}
-
-		actual_signal_ = signal_map_[mq][0];
-		Q_EMIT signal_changed(actual_signal_);
-	}
-
-	/*
-	 * Number of significant digits after the decimal point if positive, or
-	 * number of non-significant digits before the decimal point if negative
-	 * (refers to the value we actually read on the wire).
-	 */
-	int digits = 7;
-	int decimal_places = -1;
-	if (sr_analog->digits() >= 0)
-		decimal_places = sr_analog->digits();
-	else
-		digits = -1 * sr_analog->digits(); // TODO
-
-	// Deinterleave the samples and add them
-	unique_ptr<float[]> deint_data(new float[sample_count]);
-	float *deint_data_ptr = deint_data.get();
-	for (size_t i = 0; i < sample_count; i++) {
-		*deint_data_ptr = (float)(*data);
-		deint_data_ptr++;
-		data += stride;
-	}
-
-	static_pointer_cast<data::AnalogTimeSignal>(actual_signal_)->push_samples(
-		deint_data.get(), sample_count, timestamp, samplerate,
-		sr_analog->unitsize(), digits, decimal_places);
 }
 
 } // namespace channels

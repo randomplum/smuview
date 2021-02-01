@@ -87,5 +87,11 @@ void UserChannel::push_sample(double sample, double timestamp,
 		&sample, timestamp, size_of_double_, digits, decimal_places);
 }
 
+void UserChannel::start_new_frame(double timestamp, uint64_t samplerate)
+{
+	(void)timestamp;
+	(void)samplerate;
+}
+
 } // namespace channels
 } // namespace sv

@@ -103,7 +103,7 @@ protected:
 	 */
 	void init_configurables() override;
 	/**
-	 * Init all sigrok channles for this hardware device
+	 * Init all sigrok channels for this hardware device.
 	 */
 	void init_channels() override;
 
@@ -115,22 +115,25 @@ protected:
 	void feed_in_logic(shared_ptr<sigrok::Logic> sr_logic) override;
 	void feed_in_analog(shared_ptr<sigrok::Analog> sr_analog) override;
 
+protected:
+	/**
+	 * Indicates, if a new frame has been opened by SR_DF_FRAME_BEGIN, but no
+	 * SR_DF_ANALOG package was received by the channel yet. Will be set to
+	 * false with the first SR_DF_ANALOG package after SR_DF_FRAME_BEGIN for
+	 * the channel.
+	 */
+	map<shared_ptr<channels::BaseChannel>, bool> is_frame_starting_;
+
 private:
 	/**
 	 * Indicates, if a new frame has been opened by SR_DF_FRAME_BEGIN, but not
 	 * closed yet by a SR_DF_FRAME_END packet.
 	 */
 	bool is_frame_open_;
-	/**
-	 * Indicates, if a new frame has been opened by SR_DF_FRAME_BEGIN, but no
-	 * SR_DF_ANALOG package was received yet. Will be set to false with the
-	 * first SR_DF_ANALOG package after SR_DF_FRAME_BEGIN.
-	 */
-	bool is_frame_starting_;
 	/** Timestamp when the frame was opened. */
 	double frame_start_timestamp_;
 	uint64_t cur_samplerate_;
-	shared_ptr<data::properties::UInt64Property> samplerate_prop_;
+	uint64_t cur_sample_interval_;
 
 };
 

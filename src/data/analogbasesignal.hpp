@@ -79,12 +79,10 @@ public:
 	 */
 
 	/**
-	 * Push a single sample to the signal.
-	 *
-	 * TODO: Can this be removed?
-	void push_sample(void *sample, double timestamp,
-		size_t unit_size, int digits, int decimal_places);
+	 * Push multiple samples to the signal.
 	 */
+	virtual void push_samples(void *data, uint64_t samples, double timestamp,
+		double time_stride, size_t unit_size, int digits, int decimal_places) = 0;
 
 	int digits() const;
 	int decimal_places() const;
