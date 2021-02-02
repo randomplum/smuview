@@ -126,5 +126,10 @@ QString BaseSignal::display_name() const
 	return QString::fromStdString(name_);
 }
 
+SignalType BaseSignal::type() const
+{
+	return type_;
+}
+
 } // namespace data
 } // namespace sv

@@ -183,7 +183,10 @@ void DeviceTreeModel::add_channel(shared_ptr<channels::BaseChannel> channel,
 		if (!channel_item) {
 			beginInsertRows(new_parent_item->index(),
 				new_parent_item->rowCount(), new_parent_item->rowCount()+1);
-			channel_item = new TreeItem(TreeItemType::ChannelItem);
+			if (channel->type() == channels::ChannelType::ScopeChannel)
+				channel_item = new TreeItem(TreeItemType::ScopeChannelItem);
+			else
+				channel_item = new TreeItem(TreeItemType::ChannelItem);
 			channel_item->setText(QString::fromStdString(channel->name()));
 			channel_item->setData(QVariant::fromValue(channel), DeviceTreeModel::DataRole);
 			channel_item->setData(channel->index(), DeviceTreeModel::SortRole);
@@ -207,6 +210,10 @@ void DeviceTreeModel::add_channel(shared_ptr<channels::BaseChannel> channel,
 void DeviceTreeModel::add_signal(shared_ptr<sv::data::BaseSignal> signal,
 	TreeItem *parent_item)
 {
+	// Performance!
+	if (signal->type() == data::SignalType::ScopeSignal)
+		return;
+
 	std::lock_guard<std::recursive_mutex> lock(mutex_);
 
 	// Look for existing signal
@@ -214,7 +221,10 @@ void DeviceTreeModel::add_signal(shared_ptr<sv::data::BaseSignal> signal,
 	if (!signal_item) {
 		beginInsertRows(parent_item->index(),
 			parent_item->rowCount(), parent_item->rowCount()+1);
-		signal_item = new TreeItem(TreeItemType::SignalItem);
+		if (signal->type() == data::SignalType::ScopeSignal)
+			signal_item = new TreeItem(TreeItemType::ScopeSignalItem);
+		else
+			signal_item = new TreeItem(TreeItemType::SignalItem);
 		signal_item->setText(signal->display_name());
 		signal_item->setData(QVariant::fromValue(signal), DeviceTreeModel::DataRole);
 		signal_item->setData(signal->display_name(), DeviceTreeModel::SortRole); // TODO: signal->index()
@@ -335,7 +345,8 @@ TreeItem *DeviceTreeModel::find_channel(
 
 		for (int i=0; i<new_parent_item->rowCount(); ++i) {
 			auto child = new_parent_item->child(i);
-			if (child->type() != (int)TreeItemType::ChannelItem)
+			if (child->type() != (int)TreeItemType::ChannelItem &&
+					child->type() != (int)TreeItemType::ScopeChannelItem)
 				continue;
 
 			if (channel.get() == child->data(DeviceTreeModel::DataRole).

@@ -99,14 +99,16 @@ void DeviceTreeView::check_channels(
 
 	// First uncheck all channels
 	for (const auto &item : all_items) {
-		if (item->type() == (int)TreeItemType::ChannelItem) {
+		if (item->type() == (int)TreeItemType::ChannelItem ||
+				item->type() == (int)TreeItemType::ScopeChannelItem) {
 			item->setCheckState(Qt::Unchecked);
 		}
 	}
 
 	// Now check all channels that are in the channels vector
 	for (const auto &item : all_items) {
-		if (item->type() == (int)TreeItemType::ChannelItem) {
+		if (item->type() == (int)TreeItemType::ChannelItem ||
+				item->type() == (int)TreeItemType::ScopeChannelItem) {
 			auto item_data =
 				item->data().value<shared_ptr<sv::channels::BaseChannel>>();
 			for (const auto &channel :channels) {
@@ -128,8 +130,9 @@ vector<shared_ptr<sv::channels::BaseChannel>>
 	const QList<QStandardItem *> all_items =
 		tree_model_->findItems("", Qt::MatchContains | Qt::MatchRecursive);
 	for (const auto &item : all_items) {
-		if (item->checkState() > 0 &&
-				item->type() == (int)TreeItemType::ChannelItem) {
+		if (item->checkState() > 0 && (
+				item->type() == (int)TreeItemType::ChannelItem ||
+				item->type() == (int)TreeItemType::ScopeChannelItem)) {
 			channels.push_back(
 				item->data().value<shared_ptr<sv::channels::BaseChannel>>());
 		}
@@ -217,7 +220,8 @@ void DeviceTreeView::expand_recursive(QStandardItem *item)
 	if (!item)
 		return;
 
-	if (item->type() == (int)TreeItemType::ConfigurableItem)
+	if (item->type() == (int)TreeItemType::ConfigurableItem ||
+			item->type() == (int)TreeItemType::ScopeChannelItem)
 		return;
 
 	this->expand(tree_model_->indexFromItem(item));

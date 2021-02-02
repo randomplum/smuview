@@ -38,11 +38,13 @@ TreeItem::TreeItem(TreeItemType type) :
 		setIcon(QIcon::fromTheme("document-open-folder",
 			QIcon(":/icons/document-open-folder.png")));
 	}
-	else if (type == TreeItemType::ChannelItem) {
+	else if (type == TreeItemType::ChannelItem ||
+			type == TreeItemType::ScopeChannelItem) {
 		setIcon(QIcon::fromTheme("office-chart-area",
 			QIcon(":/icons/office-chart-area.png")));
 	}
-	else if (type == TreeItemType::SignalItem) {
+	else if (type == TreeItemType::SignalItem ||
+			type == TreeItemType::ScopeSignalItem) {
 		setIcon(QIcon::fromTheme("office-chart-line",
 			QIcon(":/icons/office-chart-line.png")));
 	}

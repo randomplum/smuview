@@ -32,9 +32,11 @@ enum class TreeItemType {
 	DeviceItem = 1001,
 	ChannelGroupItem = 1002,
 	ChannelItem = 1003,
-	SignalItem = 1004,
-	ConfigurableItem = 1005,
-	PropertyItem = 1006,
+	ScopeChannelItem = 1004,
+	SignalItem = 1005,
+	ScopeSignalItem = 1006,
+	ConfigurableItem = 1007,
+	PropertyItem = 1008,
 };
 
 class TreeItem : public QStandardItem
@@ -46,7 +48,7 @@ public:
 	int type() const override;
 
 protected:
-	TreeItemType type_;
+	const TreeItemType type_;
 
 };
 

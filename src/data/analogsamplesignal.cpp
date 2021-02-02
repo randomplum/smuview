@@ -52,6 +52,7 @@ AnalogSampleSignal::AnalogSampleSignal(
 	last_pos_(0)
 {
 	qWarning() << "Init analog sample signal " << display_name();
+	type_ = SignalType::SampleSignal;
 	pos_ = make_shared<vector<uint32_t>>();
 }
 

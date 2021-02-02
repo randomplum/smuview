@@ -87,7 +87,7 @@ void ScopeChannel::start_new_frame(double timestamp, uint64_t samplerate)
 	}
 
 	actual_signal_ = signal;
-	//Q_EMIT signal_added(signal);
+	Q_EMIT signal_added(signal);
 }
 
 void ScopeChannel::push_interleaved_samples(const float *data,

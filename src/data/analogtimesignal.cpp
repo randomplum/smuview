@@ -57,6 +57,7 @@ AnalogTimeSignal::AnalogTimeSignal(
 		<< ", signal_start_timestamp_ = "
 		<< util::format_time_date(signal_start_timestamp_);
 
+	type_ = SignalType::TimeSignal;
 	time_ = make_shared<vector<double>>();
 }
 

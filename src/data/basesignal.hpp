@@ -44,6 +44,21 @@ class BaseChannel;
 
 namespace data {
 
+enum class SignalType {
+	/**
+	 * (Slow) analog signal with timesamps for each sample.
+	 */
+	TimeSignal,
+	/**
+	 * (Fast) analog (scope) signal with a samplerate.
+	 */
+	ScopeSignal,
+	/**
+	 * Analog signal without a time relation.
+	 */
+	SampleSignal,
+};
+
 class BaseSignal : public QObject
 {
 	Q_OBJECT
@@ -118,6 +133,11 @@ public:
 	 */
 	QString display_name() const;
 
+	/**
+	 * Get the type of this signal.
+	 */
+	SignalType type() const;
+
 protected:
 	data::Quantity quantity_;
 	QString quantity_name_;
@@ -125,6 +145,8 @@ protected:
 	QString quantity_flags_name_;
 	data::Unit unit_;
 	QString unit_name_;
+	/** Type of this signal. */
+	SignalType type_;
 	shared_ptr<channels::BaseChannel> parent_channel_;
 
 	string name_;

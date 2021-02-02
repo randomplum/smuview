@@ -58,6 +58,7 @@ AnalogScopeSignal::AnalogScopeSignal(
 	*/
 
 	qWarning() << "AnalogScopeSignal::AnalogScopeSignal(): samplerate = " << samplerate;
+	type_ = SignalType::ScopeSignal;
 	if (samplerate > 0) { // TODO: else throw ex
 		time_stride_ = 1 / (double)samplerate;
 		qWarning() << "AnalogScopeSignal::AnalogScopeSignal(): time_stride_ = " << time_stride_;
