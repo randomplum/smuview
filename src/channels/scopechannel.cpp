@@ -65,7 +65,7 @@ void ScopeChannel::start_new_frame(double timestamp, uint64_t samplerate)
 		return;
 	}
 
-	qWarning() << "ScopeChannel::start_new_frame(): samplerate = " << samplerate;
+	//qWarning() << "ScopeChannel::start_new_frame(): samplerate = " << samplerate;
 
 	auto signal = make_shared<data::AnalogScopeSignal>(
 		data::Quantity::Voltage, set<data::QuantityFlag>(), data::Unit::Volt,
@@ -163,7 +163,7 @@ void ScopeChannel::push_interleaved_samples(const float *data,
 	if (!actual_signal_) {
 		qWarning() << "ScopeChannel::push_interleaved_samples(): " <<
 			display_name() << " - No actual_signal_ found!";
-		return;
+		start_new_frame(timestamp, samplerate); // TODO Rename: Actually not a new frame...
 	}
 
 	static_pointer_cast<data::AnalogScopeSignal>(actual_signal_)->push_samples(
