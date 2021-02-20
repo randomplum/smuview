@@ -50,7 +50,8 @@ namespace plot {
 
 enum class CurveType {
 	TimeCurve,
-	XYCurve
+	XYCurve,
+	ScopeCurve
 };
 
 class BaseCurveData : public QObject, public QwtSeriesData<QPointF>

@@ -22,21 +22,23 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <QSettings>
 #include <QUuid>
 
-#include "src/ui/views/baseplotview.hpp"
+#include "src/ui/views/baseview.hpp"
 
 using std::shared_ptr;
 using std::string;
+using std::vector;
 
 namespace sv {
 
 class Session;
 
 namespace channels {
-class BaseChannel;
+class ScopeChannel;
 }
 namespace data {
 class AnalogTimeSignal;
@@ -46,40 +48,77 @@ class OscilloscopeDevice;
 }
 
 namespace ui {
+
+namespace widgets {
+namespace plot {
+class  ScopeCurveData;
+class  ScopePlot;
+}
+}
+
 namespace views {
 
-class ScopePlotView : public BasePlotView
+/* TODO
+enum class PlotType {
+	TimePlot,
+	XYPlot,
+};
+*/
+
+class ScopePlotView : public BaseView
 {
 	Q_OBJECT
 
 public:
 	explicit ScopePlotView(Session &session, QUuid uuid = QUuid(),
 		QWidget *parent = nullptr);
-	/*
-	ScopePlotView(Session &session,
-		shared_ptr<sv::devices::OscilloscopeDevice> device,
-		shared_ptr<channels::BaseChannel> x_channel,
-		shared_ptr<channels::BaseChannel> y_channel,
-		QWidget *parent = nullptr);
-	*/
 
 	QString title() const override;
+
+	void set_device(shared_ptr<sv::devices::OscilloscopeDevice> device);
+	/**
+	 * Add a new scope channel to the scope plot and return the curve id.
+	 */
+	string add_channel(shared_ptr<channels::ScopeChannel> channel);
 
 	void save_settings(QSettings &settings,
 		shared_ptr<sv::devices::BaseDevice> origin_device = nullptr) const override;
 	void restore_settings(QSettings &settings,
 		shared_ptr<sv::devices::BaseDevice> origin_device = nullptr) override;
 
-	/**
-	 * Add a new channel to the scope plot and return the curve id.
-	 */
-	string add_channel(shared_ptr<channels::BaseChannel> channel);
-
 private:
-	vector<shared_ptr<channels::BaseChannel>> channels_;
+	void setup_ui();
+	void setup_toolbar();
+	void update_add_marker_menu();
+	void connect_signals();
+
+	shared_ptr<channels::ScopeChannel> channel_1_;
+	shared_ptr<channels::ScopeChannel> channel_2_;
+	vector<shared_ptr<channels::ScopeChannel>> channels_;
+	vector<widgets::plot::ScopeCurveData *> curves_;
+
+	/*
+	QMenu *add_marker_menu_;
+	QToolButton *add_marker_button_;
+	QAction *const action_add_marker_;
+	QAction *const action_add_diff_marker_;
+	QAction *const action_zoom_best_fit_;
+	QAction *const action_add_signal_;
+	QAction *const action_config_plot_;
+	*/
+	QToolBar *toolbar_;
+	widgets::plot::ScopePlot *plot_;
 
 protected Q_SLOTS:
-	//void on_action_add_curve_triggered() override;
+	void on_signal_added();
+	/*
+	void on_action_add_marker_triggered();
+	void on_action_add_diff_marker_triggered();
+	void on_action_zoom_best_fit_triggered();
+	void on_action_add_signal_triggered();
+	void on_action_config_plot_triggered();
+	*/
+	//void on_action_add_curve_triggered();
 
 };
 

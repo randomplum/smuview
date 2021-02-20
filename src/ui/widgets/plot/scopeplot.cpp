@@ -128,12 +128,8 @@ private:
 	}
 };
 
-ScopePlot::ScopePlot(uint64_t samplerate, int num_hdiv,
-		sv::data::rational_t timebase, QWidget *parent) :
+ScopePlot::ScopePlot(QWidget *parent) :
 	QwtPlot(parent),
-	samplerate_(samplerate),
-	num_hdiv_(num_hdiv),
-	timebase_(timebase),
 	plot_interval_(200),
 	timer_id_(-1)
 	/*,
@@ -260,15 +256,33 @@ void ScopePlot::update_samplerate(const QVariant samplerate)
 	update_x_interval();
 }
 
+void ScopePlot::update_samplerate(const uint64_t samplerate)
+{
+	samplerate_ = samplerate;
+	update_x_interval();
+}
+
 void ScopePlot::update_num_hdiv(const QVariant num_hdiv)
 {
 	num_hdiv_ = num_hdiv.toInt();
 	update_x_interval();
 }
 
+void ScopePlot::update_num_hdiv(const int num_hdiv)
+{
+	num_hdiv_ = num_hdiv;
+	update_x_interval();
+}
+
 void ScopePlot::update_timebase(const QVariant timebase)
 {
 	timebase_ = timebase.value<data::rational_t>();
+	update_x_interval();
+}
+
+void ScopePlot::update_timebase(const sv::data::rational_t timebase)
+{
+	timebase_ = timebase;
 	update_x_interval();
 }
 
@@ -471,7 +485,11 @@ int ScopePlot::init_y_axis(QString ch_name)
 void ScopePlot::update_curves()
 {
 	// TODO: mutex for curve_data_map_
+	//qWarning() << "ScopePlot::updateCurve(): curve_data_map_.size() = " << curve_data_map_.size();
+
 	for (const auto &curve_data_pairs : curve_data_map_) {
+		//qWarning() << "ScopePlot::updateCurve(): curve_data_pairs.second = " << curve_data_pairs.second;
+
 		const size_t painted_points = painted_points_map_[curve_data_pairs.second];
 		const size_t num_points = curve_data_pairs.second->size();
 		if (num_points > painted_points) {

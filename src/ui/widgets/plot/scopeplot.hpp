@@ -55,8 +55,7 @@ class ScopePlot : public QwtPlot
 	Q_OBJECT
 
 public:
-	ScopePlot(uint64_t samplerate, int num_hdiv, sv::data::rational_t timebase,
-		QWidget *parent = nullptr);
+	ScopePlot(QWidget *parent = nullptr);
 	virtual ~ScopePlot();
 
 	virtual void replot() override;
@@ -79,8 +78,12 @@ public Q_SLOTS:
 	void start();
 	void stop();
 	void update_samplerate(const QVariant samplerate);
+	void update_samplerate(const uint64_t samplerate);
 	void update_num_hdiv(const QVariant num_hdiv);
+	void update_num_hdiv(const int num_hdiv);
 	void update_timebase(const QVariant timebase);
+	void update_timebase(const sv::data::rational_t timebase);
+	void update_curves();
 
 	/*
 	void add_marker(plot::BaseCurveData *curve_data);
@@ -99,7 +102,6 @@ protected:
 private:
 	int init_x_axis();
 	int init_y_axis(QString ch_name);
-	void update_curves();
 	void update_intervals();
 	bool update_x_interval();
 	bool update_y_interval(int y_axis_id);

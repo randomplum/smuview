@@ -354,6 +354,7 @@ set(smuview_SOURCES
 	src/ui/widgets/plot/plot.cpp
 	src/ui/widgets/plot/plotmagnifier.cpp
 	src/ui/widgets/plot/plotscalepicker.cpp
+	src/ui/widgets/plot/scopecurvedata.cpp
 	src/ui/widgets/plot/scopeplot.cpp
 	src/ui/widgets/plot/timecurvedata.cpp
 	src/ui/widgets/plot/xycurvedata.cpp
