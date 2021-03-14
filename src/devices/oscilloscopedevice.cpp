@@ -43,23 +43,27 @@ OscilloscopeDevice::OscilloscopeDevice(
 
 void OscilloscopeDevice::init_channels()
 {
-	HardwareDevice::init_channels();
+	map<string, shared_ptr<sigrok::ChannelGroup>> sr_channel_groups =
+		sr_device_->channel_groups();
 
-	for (const auto &chg_name_channels_pair : channel_group_map_) {
-		for (const auto &channel : chg_name_channels_pair.second) {
-			if (channel->type() != channels::ChannelType::AnalogChannel)
-				continue;
-
-			// TODO: preinit with channel.meaning.mq, ...
-			//       (must be implemented in sigrok)
-			data::Quantity quantity = data::Quantity::Voltage;
-			set<data::QuantityFlag> quantity_flags;
-			data::Unit unit = data::Unit::Volt;
-
-			auto hw_channel =
-				static_pointer_cast<channels::HardwareChannel>(channel);
-			hw_channel->add_signal(quantity, quantity_flags, unit);
+	// Init Channels from Sigrok Channel Groups
+	if (!sr_channel_groups.empty()) {
+		for (const auto &sr_cg_pair : sr_channel_groups) {
+			shared_ptr<sigrok::ChannelGroup> sr_cg = sr_cg_pair.second;
+			for (const auto &sr_channel : sr_cg->channels()) {
+				auto channel = add_sr_channel(sr_channel, sr_cg->name(),
+					channels::ChannelType::ScopeChannel);
+			}
 		}
+	}
+
+	// Init Channels that are not in a channel group
+	vector<shared_ptr<sigrok::Channel>> sr_channels = sr_device_->channels();
+	for (const auto &sr_channel : sr_channels) {
+		if (sr_channel_map_.count(sr_channel) > 0)
+			continue;
+		auto channel = add_sr_channel(sr_channel, "",
+			channels::ChannelType::ScopeChannel);
 	}
 }
 

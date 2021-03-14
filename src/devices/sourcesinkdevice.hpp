@@ -43,11 +43,9 @@ class SourceSinkDevice : public HardwareDevice
 	Q_OBJECT
 
 private:
-	explicit SourceSinkDevice(const shared_ptr<sigrok::Context> &sr_context,
+	explicit SourceSinkDevice(
+		const shared_ptr<sigrok::Context> &sr_context,
 		shared_ptr<sigrok::HardwareDevice> sr_device);
-
-	void handle_channel_name_suffix(const string &channel_name,
-		size_t start_pos, string &channel_suffix);
 
 public:
 	template<typename ...Arg>
@@ -66,6 +64,10 @@ public:
 protected:
 	void init_configurables() override;
 	void init_channels() override;
+
+private:
+	void handle_channel_name_suffix(const string &channel_name,
+		size_t start_pos, string &channel_suffix);
 
 };
 
