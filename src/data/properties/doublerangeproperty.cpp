@@ -146,7 +146,7 @@ void DoubleRangeProperty::change_value(const QVariant &qvar)
 
 void DoubleRangeProperty::on_value_changed(Glib::VariantBase gvar)
 {
-	Glib::VariantIter iter(gvar);
+	Glib::VariantIter iter;
 	iter.next_value(gvar);
 	double low =
 		Glib::VariantBase::cast_dynamic<Glib::Variant<double>>(gvar).get();

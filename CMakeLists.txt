@@ -48,7 +48,7 @@ if(POLICY CMP0054)
 endif()
 
 # SmuView, QCodeEditor and pybind11 only need C++11
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 if(WIN32)
 	# On Windows/MinGW we need to statically link to libraries.
@@ -374,7 +374,7 @@ qt5_add_resources(smuview_RESOURCES_RCC ${smuview_RESOURCES})
 add_definitions(-DQT_NO_KEYWORDS)
 add_definitions(-D__STDC_LIMIT_MACROS)
 add_definitions(-Wall -Wextra -Woverloaded-virtual -Wdeprecated-declarations) # -Weffc++ -Wconversion -Wsign-conversion)
-add_definitions(-std=c++11)
+add_definitions(-std=c++17)
 add_definitions(-DBOOST_MATH_DISABLE_FLOAT128=1)
 
 if(NOT DISABLE_WERROR)

@@ -143,8 +143,9 @@ void format_value_si(
 
 	// Use actual locale (%L) for formating.
 	value_str = QString("%L1").
-		arg(value * multiplier, digits, 'f', decimal_places, QChar(' '));
-
+		arg(value * multiplier, digits, 'f',
+		decimal_places + (exponent(si_prefix) * (exponent(si_prefix) < 1)),
+		QChar(' '));
 	QTextStream si_prefix_stream(&si_prefix_str);
 	si_prefix_stream << si_prefix;
 }

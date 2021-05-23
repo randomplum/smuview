@@ -242,10 +242,10 @@ void ValuePanelView::connect_signals_signal()
 	//	value_display_, SLOT(set_unit(const String)));
 	connect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
 		value_display_, &widgets::ValueDisplay::set_digits);
-	connect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
-		value_min_display_, &widgets::ValueDisplay::set_digits);
-	connect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
-		value_max_display_, &widgets::ValueDisplay::set_digits);
+/*	connect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
+ *		value_min_display_, &widgets::ValueDisplay::set_digits);
+ *	connect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
+ *		value_max_display_, &widgets::ValueDisplay::set_digits); */
 }
 
 void ValuePanelView::disconnect_signals_signal()
@@ -257,10 +257,10 @@ void ValuePanelView::disconnect_signals_signal()
 	//	value_display_, SLOT(set_unit(QString)));
 	disconnect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
 		value_display_, &widgets::ValueDisplay::set_digits);
-	disconnect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
-		value_min_display_, &widgets::ValueDisplay::set_digits);
-	disconnect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
-		value_max_display_, &widgets::ValueDisplay::set_digits);
+/*	disconnect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
+ *		value_min_display_, &widgets::ValueDisplay::set_digits);
+ *	disconnect(signal_.get(), &data::AnalogTimeSignal::digits_changed,
+ *		value_max_display_, &widgets::ValueDisplay::set_digits); */
 }
 
 void ValuePanelView::save_settings(QSettings &settings,
@@ -328,15 +328,22 @@ void ValuePanelView::on_update()
 	double value = 0;
 	if (signal_) {
 		value = signal_->last_value();
-		if (value_min_ > value)
+		if (value_min_ > value) {
 			value_min_ = value;
-		if (value_max_ < value)
+			value_min_display_->set_digits(signal_->digits(),
+						signal_->decimal_places());
+			value_min_display_->set_value(value_min_);
+		}
+		if (value_max_ < value) {
 			value_max_ = value;
+			value_max_display_->set_digits(signal_->digits(),
+						signal_->decimal_places());
+			value_max_display_->set_value(value_max_);
+		}
 	}
 
 	value_display_->set_value(value);
-	value_min_display_->set_value(value_min_);
-	value_max_display_->set_value(value_max_);
+
 }
 
 void ValuePanelView::on_signal_changed()

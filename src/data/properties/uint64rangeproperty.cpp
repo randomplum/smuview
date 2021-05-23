@@ -154,7 +154,7 @@ void UInt64RangeProperty::change_value(const QVariant &qvar)
 
 void UInt64RangeProperty::on_value_changed(Glib::VariantBase gvar)
 {
-	Glib::VariantIter iter(gvar);
+	Glib::VariantIter iter;
 	iter.next_value(gvar);
 	uint64_t low =
 		Glib::VariantBase::cast_dynamic<Glib::Variant<uint64_t>>(gvar).get();

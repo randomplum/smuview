@@ -256,7 +256,7 @@ void HardwareDevice::feed_in_meta(shared_ptr<sigrok::Meta> sr_meta)
 		}
 		// fallback to old code...
 	}
-	
+
 	for (const auto &c_pair : configurable_map_) {
 		// TODO: The meta packet is missing the information, to which
 		// channel group the config key belongs.

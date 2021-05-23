@@ -74,7 +74,7 @@ data::rational_t RationalProperty::rational_value() const
 			toStdString());
 	}
 
-	Glib::VariantIter iter(gvar);
+	Glib::VariantIter iter;
 	iter.next_value(gvar);
 	uint64_t p =
 		Glib::VariantBase::cast_dynamic<Glib::Variant<uint64_t>>(gvar).get();
@@ -158,7 +158,7 @@ void RationalProperty::change_value(const QVariant &qvar)
 
 void RationalProperty::on_value_changed(Glib::VariantBase gvar)
 {
-	Glib::VariantIter iter(gvar);
+	Glib::VariantIter iter;
 	iter.next_value(gvar);
 	uint64_t p =
 		Glib::VariantBase::cast_dynamic<Glib::Variant<uint64_t>>(gvar).get();
